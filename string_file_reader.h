@@ -5,7 +5,7 @@
 * 作    者：gaooyao
 * 邮    箱：1625545050@qq.com
 * 项目地址：https://github.com/gaooyao/string_file_reader
-* 简    介：通过引入缓冲区，减少读取超大文本时访问外存的频率，实现了文件的加速读取，读写性能得到明显提升。
+* 简    介：通过引入缓冲区，减少读取超大文本时访问外存的频率，实现了文件的加速读取，性能提升明显
 * 使用方法：1：创建FileHandler指针
 *          2：调用open_file函数，打开文件
 *          3：调用read_line或者write_line函数进行文件读写
@@ -21,11 +21,12 @@
 typedef struct FileHandler
 {							  //文件handler
 	FILE *file;				  //原始文件操作handler
-	char file_name[256];	  //被打开的文件名
+	char file_name[512];	  //被打开的文件名
 	int open_status;		  //文件打开状态，0未打开，1读模式，2写模式
 	int point;				  //当前在buffer中的操作位置指针
 	unsigned int buffer_size; //缓冲区大小
 	char *buffer;			  //缓冲区
+	short end_flag_len;		  //每行字符串结束符长度，如utf-8为1字节，GB2312为2字节
 } FileHandler;
 
 FileHandler *open_file(char *file_name, char *open_type); //打开新文件，open_type为"rb"或"wb"
